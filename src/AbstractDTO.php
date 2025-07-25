@@ -10,8 +10,8 @@ use Maduser\Argon\DTO\Contracts\DTOInterface;
 use Maduser\Argon\DTO\Contracts\FromJsonInterface;
 use Maduser\Argon\DTO\Contracts\Jsonable;
 use Maduser\Argon\DTO\Contracts\AutoMappableInterface;
-use Maduser\Argon\DTO\Exceptions\DTOConfigurationException;
-use Maduser\Argon\DTO\Exceptions\SerializationException;
+use Maduser\Argon\DTO\Exception\DTOConfigurationException;
+use Maduser\Argon\DTO\Exception\SerializationException;
 
 abstract readonly class AbstractDTO implements
     DTOInterface,

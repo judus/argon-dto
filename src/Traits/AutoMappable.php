@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Maduser\Argon\DTO\Traits;
 
-use Maduser\Argon\DTO\Exceptions\InvalidMappingException;
+use Maduser\Argon\DTO\Exception\InvalidMappingException;
 use ReflectionClass;
 use ReflectionParameter;
 

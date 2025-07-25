@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Maduser\Argon\DTO\Exceptions;
+namespace Maduser\Argon\DTO\Exception;
 
 use InvalidArgumentException;
 use Maduser\Argon\DTO\Contracts\DTOException;
