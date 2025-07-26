@@ -72,8 +72,8 @@ abstract readonly class AbstractDTO implements DTOInterface, FromJsonInterface, 
 
     /**
      * @throws DTOSerializationException
-     * @psalm-suppress FalsableReturnStatement
-     * @psalm-suppress InvalidFalsableReturnType
+     * @psalm-suppress FalsableReturnStatement we're catching JsonException and rethrowing it as a custom exception
+     * @psalm-suppress InvalidFalsableReturnType we're catching JsonException and rethrowing it as a custom exception
      */
     final public function toJson(int $flags = 0): string
     {
