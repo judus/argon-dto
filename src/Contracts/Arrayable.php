@@ -6,8 +6,6 @@ namespace Maduser\Argon\DTO\Contracts;
 
 interface Arrayable
 {
-    /**
-     * @return array<string, scalar|null>
-     */
+    /** @return array<string, mixed> */
     public function toArray(): array;
 }

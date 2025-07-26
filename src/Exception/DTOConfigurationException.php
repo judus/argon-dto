@@ -7,9 +7,9 @@ namespace Maduser\Argon\DTO\Exception;
 use RuntimeException;
 
 /**
- * Thrown when a DTO is improperly configured or missing required behavior.
+ * Thrown when a DTO is misconfigured (e.g., missing required contracts).
  */
-final class DTOConfigurationException extends RuntimeException
+final class DTOConfigurationException extends RuntimeException implements DTOException
 {
     public static function missingAutoMapper(string $class): self
     {

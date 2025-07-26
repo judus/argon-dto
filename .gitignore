@@ -1,2 +1,5 @@
 /vendor/
-/.idea/php-test-framework.xml
+/.idea/
+/.phpunit.cache/
+/build/
+/coverage.xml

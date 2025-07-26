@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Maduser\Argon\DTO\Contracts;
 
 use JsonException;
+use Maduser\Argon\DTO\Exception\DTOSerializationException;
 
 interface Jsonable
 {
@@ -13,7 +14,7 @@ interface Jsonable
      *
      * @param int $flags JSON encoding flags.
      *
-     * @throws JsonException If encoding fails.
+     * @throws DTOSerializationException If encoding fails.
      */
     public function toJson(int $flags = 0): string;
 }
