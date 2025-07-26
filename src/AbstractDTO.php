@@ -16,15 +16,22 @@ use Maduser\Argon\DTO\Exception\DTOSerializationException;
 
 abstract readonly class AbstractDTO implements DTOInterface, FromJsonInterface, jsonSerializable
 {
+    /** @param array<array-key, mixed> $data */
+    /** @psalm-suppress UnusedVariable we're unpacking $params in a constructor, get ready for a psalm-fest */
     final public static function fromArray(array $data): static
     {
         if (!is_subclass_of(static::class, AutoMappableInterface::class)) {
             throw DTOConfigurationException::missingAutoMapper(static::class);
         }
 
-        /** @psalm-suppress TooManyArguments */
-        /** @psalm-suppress UnsafeInstantiation */
-        return new static(...static::class::mapFromArray($data));
+        /** @var class-string<AutoMappableInterface> $class */
+        $class = static::class;
+
+        $params = $class::mapFromArray($data);
+
+        /** @psalm-suppress UnsafeInstantiation yeah, that's the whole point */
+        /** @psalm-suppress TooManyArguments really now? what about not enough? It'll blow, and that's what we want */
+        return new static(...$params);
     }
 
     /**
