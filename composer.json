@@ -17,13 +17,11 @@
         "psr-4": {
             "Tests\\": "tests/",
             "Tests\\Integration\\": "tests/integration/",
-            "Tests\\Unit\\": "tests/unit/",
             "Tests\\Mocks\\": "tests/resources/mocks"
         }
     },
     "require": {
-        "php": "^8.2",
-        "ext-pdo": "*"
+        "php": "^8.2"
     },
     "require-dev": {
         "vimeo/psalm": "^6.0",

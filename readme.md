@@ -1,9 +1,9 @@
 [![PHP](https://img.shields.io/badge/php-8.2+-blue)](https://www.php.net/)
-[![Build](https://github.com/judus/argon-dtos/actions/workflows/php.yml/badge.svg)](https://github.com/judus/argon-dtos/actions)
-[![codecov](https://codecov.io/gh/judus/argon-dtos/branch/master/graph/badge.svg)](https://codecov.io/gh/judus/argon-dtos)
-[![Psalm Level](https://shepherd.dev/github/judus/argon-dtos/coverage.svg)](https://shepherd.dev/github/judus/argon-dtos)
+[![Build](https://github.com/judus/argon-dto/actions/workflows/php.yml/badge.svg)](https://github.com/judus/argon-dto/actions)
+[![codecov](https://codecov.io/gh/judus/argon-dto/branch/master/graph/badge.svg)](https://codecov.io/gh/judus/argon-dto)
+[![Psalm Level](https://shepherd.dev/github/judus/argon-dto/coverage.svg)](https://shepherd.dev/github/judus/argon-dto)
 [![Code Style](https://img.shields.io/badge/code%20style-PSR--12-brightgreen.svg)](https://www.php-fig.org/psr/psr-12/)
-[![Latest Version](https://img.shields.io/packagist/v/maduser/argon-dtos.svg)](https://packagist.org/packages/maduser/argon-dtos)
+[![Latest Version](https://img.shields.io/packagist/v/maduser/argon-dto.svg)](https://packagist.org/packages/maduser/argon-dto)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # maduser/argon-dto
@@ -92,7 +92,7 @@ $dto = UserDTO::map(['id' => 1, 'name' => 'Alice']);
 
 * `map(array $row): static` is a convenience wrapper that defaults to calling `fromArray()`. It exists to support integration scenarios where a generic mapping method is expected, such as automatic hydration from database rows.
 
-For example, the `map()` method fulfills the `RowMapper` interface required by the `fetchOneTo()` and `fetchAllTo()` methods in the [`judus/argon-dtos`](https://packagist.org/packages/judus/argon-dtos) package.
+For example, the `map()` method fulfills the `RowMapper` interface required by the `fetchOneTo()` and `fetchAllTo()` methods in the [`judus/argon-database`](https://packagist.org/packages/judus/argon-database) package.
 
 They are functionally identical unless overridden. Use `fromArray()` in most cases; use `map()` where structural compatibility is required.
 
