@@ -10,7 +10,7 @@ namespace Maduser\Argon\DTO\Contracts;
 interface AutoMappableInterface
 {
     /**
-     * @param array<string, scalar|null> $data
+     * @param array<array-key, mixed> $data
      * @return list<mixed>
      */
     public static function mapFromArray(array $data): array;
