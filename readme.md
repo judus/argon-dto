@@ -6,7 +6,7 @@
 [![Latest Version](https://img.shields.io/packagist/v/maduser/argon-dto.svg)](https://packagist.org/packages/maduser/argon-dto)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# maduser/argon-dto
+# Argon DTO
 
 A lightweight PHP DTO implementation with support for array and JSON hydration, serialization, and auto-mapping using field constants.
 
