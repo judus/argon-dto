@@ -121,3 +121,6 @@ Run PHP\_CodeSniffer:
 ```bash
 vendor/bin/phpcs
 ```
+
+# LICENSE
+MIT
