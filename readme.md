@@ -8,40 +8,52 @@
 
 # Argon DTO
 
-A lightweight PHP DTO implementation with support for array and JSON hydration, serialization, and auto-mapping using field constants.
+A lightweight PHP DTO implementation with support for array and JSON hydration, serialization, and optional auto-mapping using field constants.
+Reflection at runtime is avoided by design.
 
 ## Requirements
 
-- PHP 8.2+
-- Composer
+* PHP 8.2+
+* Composer
 
 ## Installation
 
 ```bash
 composer require maduser/argon-dto
-````
+```
 
 ## Overview
 
 This package provides:
 
-* A base `AbstractDTO` class for immutable data transfer objects
-* Interfaces for consistent serialization and mapping
-* A trait for automatic mapping from arrays using field constants
-* Custom exceptions for misconfiguration or serialization errors
-
-## Interfaces
-
-* `DTOInterface` – Combines `Arrayable` and `Jsonable`
-* `Arrayable` – Defines `toArray(): array`
-* `Jsonable` – Defines `toJson(int $flags = 0): string`
-* `FromArrayInterface` – Defines `fromArray(array $data): static`
-* `FromJsonInterface` – Defines `fromJson(string $json): static`
-* `AutoMappableInterface` – Defines `mapFromArray(array $data): array`
+* A base `AbstractDTO` class for immutable data transfer objects.
+* Optional auto-mapping via `AutoMappableInterface` and `AutoMap`.
+* Consistent serialization via `toArray()` and `toJson()`.
+* Custom exceptions for misconfiguration or serialization errors.
 
 ## Usage
 
-### Define a DTO
+### Simple DTO
+
+For a basic DTO, just extend `AbstractDTO`:
+
+```php
+use Maduser\Argon\DTO\AbstractDTO;
+
+final class ProductDTO extends AbstractDTO
+{
+    public function __construct(
+        public readonly int $id,
+        public readonly string $name
+    ) {}
+}
+
+$dto = new ProductDTO(1, 'Gadget');
+```
+
+### Auto-Mapping DTO
+
+If you want array-to-constructor mapping without manually unpacking arrays:
 
 ```php
 use Maduser\Argon\DTO\AbstractDTO;
@@ -61,66 +73,65 @@ final class UserDTO extends AbstractDTO implements AutoMappableInterface
 }
 ```
 
-### Create from array
+You can then hydrate from arrays or JSON:
 
 ```php
 $dto = UserDTO::fromArray(['id' => 1, 'name' => 'Alice']);
-```
-
-### Create from JSON
-
-```php
 $dto = UserDTO::fromJson('{"id":1,"name":"Alice"}');
 ```
 
-### Access data
+### Accessing Data
 
 ```php
 $array = $dto->toArray();
 $json = $dto->toJson();
 ```
 
-### Mapping
+### Mapping Logic
+
+If your DTO implements `AutoMappableInterface`, you must define a `mapFromArray()` method. You can implement this manually or use the provided `AutoMap` trait. The trait uses `MAPPABLE_FIELDS` to determine which keys to extract from the input array and in what order:
 
 ```php
-$dto = UserDTO::map(['id' => 1, 'name' => 'Alice']);
+public static function mapFromArray(array $data): array
+{
+    $fqcn = static::class;
+
+    if (!defined("$fqcn::MAPPABLE_FIELDS")) {
+        throw DTOMappingException::missingMap($fqcn);
+    }
+
+    /** @var list<string> $fields */
+    $fields = constant("$fqcn::MAPPABLE_FIELDS");
+
+    return array_map(
+        static function (string $key) use ($data, $fqcn): mixed {
+            if (!array_key_exists($key, $data)) {
+                throw DTOMappingException::missingField($key, $fqcn);
+            }
+            return $data[$key];
+        },
+        $fields
+    );
+}
 ```
 
-## Design: `fromArray()` vs `map()`
-
-* `fromArray(array $data): static` is the primary hydration method. It performs validation and field mapping as needed and is the intended entry point for consumers creating DTOs from raw input.
-
-* `map(array $row): static` is a convenience wrapper that defaults to calling `fromArray()`. It exists to support integration scenarios where a generic mapping method is expected, such as automatic hydration from database rows.
-
-For example, the `map()` method fulfills the `RowMapper` interface required by the `fetchOneTo()` and `fetchAllTo()` methods in the [`judus/argon-database`](https://packagist.org/packages/judus/argon-database) package.
-
-They are functionally identical unless overridden. Use `fromArray()` in most cases; use `map()` where structural compatibility is required.
+* The order of keys in the input array is irrelevant.
+* Extra keys in the input array are ignored.
 
 ## Error Handling
 
-* `DTOConfigurationException` – Thrown if a DTO lacks required mapping behavior
-* `DTOMappingException` – Thrown for missing fields or constants in mapping
-* `DTOSerializationException` – Thrown on JSON encoding or decoding failure
+* `DTOConfigurationException` – DTO lacks required mapping behavior.
+* `DTOMappingException` – Missing fields or invalid `MAPPABLE_FIELDS`.
+* `DTOSerializationException` – JSON encoding/decoding failures.
 
 ## Testing
 
-Run PHPUnit:
-
 ```bash
 vendor/bin/phpunit
-```
-
-Run Psalm:
-
-```bash
 vendor/bin/psalm
-```
-
-Run PHP\_CodeSniffer:
-
-```bash
 vendor/bin/phpcs
 ```
 
-# LICENSE
+# License
+
 MIT
